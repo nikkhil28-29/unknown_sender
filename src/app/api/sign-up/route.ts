@@ -7,8 +7,9 @@ export async function POST(request:Request){
     await dbConnect()
 
     try{
-        const {username ,email, password}=await request.json()
-        const exitingUserVerifiedByUsername= await UserModel.
+        const {username ,email, password}=await request.json()   //Receives a POST request containing username, email, and password.
+        
+        const exitingUserVerifiedByUsername= await UserModel.  //find 
         findOne({
             username,
             isVerified:true
@@ -23,7 +24,21 @@ export async function POST(request:Request){
         const verifyCode=Math.floor(100000+Math.random()*900000).toString()
 
         if(existingUSerByMail){
-            true//TODO
+            if(existingUSerByMail.isVerified){
+                return Response.json({
+                    success:false,
+                    username:"USer Already Exist"
+                },{
+                    status:400
+                })
+            }
+            else {
+                const hashedPassword=await bcrypt.hash(password,10)
+                existingUSerByMail.password=hashedPassword
+                existingUSerByMail.verifyCode=verifyCode
+                existingUSerByMail.verifyCodeExpiry=new Date(Date.now()+3600000)
+                await existingUSerByMail.save()
+            }
         }
         else {
             const hashedPassword=await bcrypt.hash(password,10)
@@ -44,11 +59,27 @@ export async function POST(request:Request){
             await newUser.save()
         }
 
+
         //Send Verification Email
-        await sendVerificationEmail
-
-
-
+        const EmailResponse = await sendVerificationEmail(
+            email,
+            username,
+            verifyCode
+        )
+        if(!EmailResponse){
+            return Response.json({
+                success:false,
+                username:"Email  is alredy taken"
+            },{
+                status:500
+            })
+        }
+            return Response.json({
+                success:true,
+                username:"User Registered Succesfully, Please veryfy ur email "
+            },{
+                status:400
+            })
     }catch(error){
         console.log("Error registering user", error)
         return Response.json(
