@@ -74,6 +74,8 @@ export async function POST(request:Request){
                 status:500
             })
         }
+
+        console.log(EmailResponse)
             return Response.json({
                 success:true,
                 username:"User Registered Succesfully, Please veryfy ur email "
@@ -93,3 +95,4 @@ export async function POST(request:Request){
         )
     }
 }
+console.log('RESEND_API_KEY:', process.env.RESEND_API_KEY);

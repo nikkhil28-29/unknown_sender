@@ -1,11 +1,11 @@
 import mongoose ,{Schema, Document} from "mongoose";
 
-export interface Message extends Document{  //typesaftey type[safe]
+export interface Message extends Document{   //typesaftey type[safe]
     content:string;
     createdAt:Date
 }
 
-const MessageSchema:Schema<Message>=new Schema({ //its schema
+const MessageSchema:Schema<Message>=new Schema({     //its schema, wil accept schema when its type [Message]
     content:{
         type:String,                    //in mongoose,  
         required:true
@@ -14,7 +14,7 @@ const MessageSchema:Schema<Message>=new Schema({ //its schema
         type:Date,
         required:true,
         default:Date.now
-    }
+    }  
 })
 
 export interface User extends Document{
