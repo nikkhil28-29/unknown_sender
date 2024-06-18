@@ -39,14 +39,14 @@ export async function GET(request:Request){     //as url will be get, extract ur
             return Response.json({
                 success:true,
                 message:'UserName is Unique',
-            }, {status:400})
+            }, {status:200})
         }
 
     }catch(error){
         console.error("Error while checking hnique username", error)
         return Response.json({
             success:false,
-            message:"Error While cecking isername"
+            message:"Error While checking username"
         },{
             status:500
         })

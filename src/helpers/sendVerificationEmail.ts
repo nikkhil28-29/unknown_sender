@@ -6,7 +6,8 @@ export async function sendVerificationEmail(
     email: string,
     username: string,
     VerifyCode: string,
-): Promise<ApiResponse> {
+): Promise<ApiResponse> {  // returns a Promise that will eventually resolve to an ApiResponse object.
+                            //ApiResponse:  type (interface or type) that defines the structure of the data that sendVerificationEmail function promises to return once the asynchronous operation complete
     try {
         const a = await resend.emails.send({
             from: 'onboarding@resend.dev',

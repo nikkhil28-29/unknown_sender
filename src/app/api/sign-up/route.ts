@@ -23,7 +23,7 @@ export async function POST(request:Request){
         const existingUSerByMail=await UserModel.findOne({email})
         const verifyCode=Math.floor(100000+Math.random()*900000).toString()
 
-        if(existingUSerByMail){
+        if(existingUSerByMail){              //checks whether existingUSerByMail contains a user object:
             if(existingUSerByMail.isVerified){
                 return Response.json({
                     success:false,
@@ -58,8 +58,6 @@ export async function POST(request:Request){
             })
             await newUser.save()
         }
-
-
         //Send Verification Email
         const EmailResponse = await sendVerificationEmail(
             email,
@@ -78,7 +76,7 @@ export async function POST(request:Request){
         console.log(EmailResponse)
             return Response.json({
                 success:true,
-                username:"User Registered Succesfully, Please veryfy ur email "
+                username:"User Registered Succesfully, Please verify ur email-id "
             },{
                 status:400
             })
@@ -95,4 +93,4 @@ export async function POST(request:Request){
         )
     }
 }
-console.log('RESEND_API_KEY:', process.env.RESEND_API_KEY);
+// console.log('RESEND_API_KEY:', process.env.RESEND_API_KEY);
