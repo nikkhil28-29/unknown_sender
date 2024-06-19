@@ -68,6 +68,7 @@ const debounced = useDebounceCallback((value) => setUsername(value), 1000);
     setIsSubmitting(true);
     try {
       const response = await axios.post<ApiResponse>('/api/sign-up', data);
+      console.log(response)
       toast({
         title: "Success",
         description: response.data.message,
